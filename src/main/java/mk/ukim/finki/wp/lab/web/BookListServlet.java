@@ -53,7 +53,7 @@ public class BookListServlet extends HttpServlet {
 
         String ratingString=req.getParameter("rating");
         Double rating;
-        if (ratingString.isEmpty()){
+        if (ratingString ==null || ratingString.isEmpty()){
             rating=0D;
         }
         else {

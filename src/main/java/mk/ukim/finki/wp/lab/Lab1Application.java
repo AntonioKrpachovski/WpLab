@@ -19,6 +19,7 @@ public class Lab1Application {
 		SpringApplication.run(Lab1Application.class, args);
 	}
 
+/*
 	@Bean
 	public ServletRegistrationBean<BookListServlet> bookListServlet(BookService bookService,
 																	SpringTemplateEngine springTemplateEngine) {
@@ -30,5 +31,5 @@ public class Lab1Application {
 																				  SpringTemplateEngine springTemplateEngine) {
 		BookReservationServlet servlet = new BookReservationServlet(bookReservationService, springTemplateEngine);
 		return new ServletRegistrationBean<>(servlet, "/bookReservation");
-	}
+	}*/
 }

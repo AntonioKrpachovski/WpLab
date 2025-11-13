@@ -32,4 +32,20 @@ public class BookReservation {
         this.readerAddress = readerAddress;
         this.numberOfCopies = numberOfCopies;
     }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public void setReaderName(String readerName) {
+        this.readerName = readerName;
+    }
+
+    public void setReaderAddress(String readerAddress) {
+        this.readerAddress = readerAddress;
+    }
+
+    public void setNumberOfCopies(Long numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
+    }
 }

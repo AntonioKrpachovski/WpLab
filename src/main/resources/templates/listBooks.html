@@ -32,7 +32,7 @@
 </header>
 <main>
 
-    <form action="/" method="POST">
+    <form action="/books" method="get">
         <h2>Search Books</h2>
         <label>Search by title or keyword:</label>
         <input type="text" name="text" placeholder="Enter keyword" />
@@ -55,7 +55,20 @@
                 Title: <span th:text="${book.title}"></span>,
                 Genre: <span th:text="${book.genre}"></span>,
                 Rating: <span th:text="${book.averageRating}"></span>
+                Author: <span th:text="${book.getAuthor().getName()}"></span><span th:text="${book.getAuthor().getSurname()}"></span>
             </label>
+            <th:block>
+                <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}"
+                   class="btn btn-sm btn-info edit-product">
+                    <i class="fa fa-trash">Edit</i>
+                </a>
+            </th:block>
+            <th:block>
+                <a th:href="@{'/books/delete/{id}' (id=${book.getId()})}"
+                   class="btn btn-sm btn-info edit-product">
+                    <i class="fa fa-trash">Delete</i>
+                </a>
+            </th:block>
         </div>
 
         <h2>Enter your information:</h2>
@@ -69,6 +82,11 @@
         <br/>
         <input type="submit" value="Reserve Book">
     </form>
+
+    <form action="/books/add-form" method="get">
+        <button type="submit">Add Book</button>
+    </form>
+
 </main>
 </body>
 </html>
