@@ -1,3 +1,4 @@
+/*
 package mk.ukim.finki.wp.lab.repository;
 
 import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
@@ -61,3 +62,4 @@ public class InMemoryBookRepository implements BookRepository{
         return book;
     }
 }
+*/

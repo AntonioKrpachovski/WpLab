@@ -8,7 +8,7 @@ public class BookReservation {
     String bookTitle;
     String readerName;
     String readerAddress;
-    Long numberOfCopies;
+    int numberOfCopies;
 
     public String getBookTitle() {
         return bookTitle;
@@ -22,11 +22,11 @@ public class BookReservation {
         return readerAddress;
     }
 
-    public Long getNumberOfCopies() {
+    public int getNumberOfCopies() {
         return numberOfCopies;
     }
 
-    public BookReservation(String bookTitle, String readerName, String readerAddress, Long numberOfCopies) {
+    public BookReservation(String bookTitle, String readerName, String readerAddress, int numberOfCopies) {
         this.bookTitle = bookTitle;
         this.readerName = readerName;
         this.readerAddress = readerAddress;
@@ -45,7 +45,7 @@ public class BookReservation {
         this.readerAddress = readerAddress;
     }
 
-    public void setNumberOfCopies(Long numberOfCopies) {
+    public void setNumberOfCopies(int numberOfCopies) {
         this.numberOfCopies = numberOfCopies;
     }
 }

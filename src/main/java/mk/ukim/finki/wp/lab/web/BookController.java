@@ -1,7 +1,5 @@
 package mk.ukim.finki.wp.lab.web;
 
-
-import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.service.AuthorService;
@@ -24,16 +22,11 @@ public class BookController {
     }
 
     @GetMapping()
-    public String getBooksPage(@RequestParam(required = false) String text,
-                               @RequestParam(required = false) Double rating,
-                               Model model) {
-        List<Book> books;
-        if (text != null || rating != null) {
-            books = bookService.searchBooks(text != null ? text : "", rating != null ? rating : 0D);
-        } else {
-            books = bookService.listAll();
-        }
+    public String getBooksPage(@RequestParam(required = false) String error, Model model){
+        List<Book> books= bookService.listAll();
         model.addAttribute("books", books);
+        List<Author> authors= authorService.findAll();
+        model.addAttribute("authors", authors);
         return "listBooks";
     }
 
@@ -41,7 +34,7 @@ public class BookController {
     public String showAddBookForm(Model model) {
         List<Author> authors= authorService.findAll();
         model.addAttribute("authors", authors);
-        return "saveBook";
+        return "book-form";
     }
 
     @PostMapping("/add")
@@ -49,10 +42,8 @@ public class BookController {
                            @RequestParam String genre,
                            @RequestParam Double averageRating,
                            @RequestParam Long authorId){
-        Author author=authorService.findById(authorId);
 
-        Book newBook= new Book(title,genre,averageRating,author);
-        bookService.save(newBook.getId(), title,genre,averageRating,author);
+        bookService.save(title,genre,averageRating,authorId);
         return "redirect:../books";
     }
 
@@ -61,7 +52,7 @@ public class BookController {
         Book book = bookService.getById(Id);
         model.addAttribute("book", book);
         model.addAttribute("authors", authorService.findAll());
-        return "saveBook";
+        return "book-form";
     }
 
     @PostMapping("/edit/{bookId}")
@@ -69,22 +60,49 @@ public class BookController {
                              @RequestParam String genre,
                              @RequestParam Double averageRating,
                              @RequestParam Long authorId){
-        Author author=authorService.findById(authorId);
-        bookService.update(bookId,title,genre,averageRating,author);
+        Author author = authorService.findById(authorId);
+        bookService.update(bookId,title,genre,averageRating,authorId);
         return "redirect:../../books";
     }
 
     @GetMapping("/delete/{bookId}")
     public String deleteBook(@PathVariable Long bookId, Model model){
-        Book book = bookService.getById(bookId);
-        model.addAttribute("book", book);
-        return "deleteBook";
-    }
-
-    @PostMapping("/delete-confirm/{bookId}")
-    public String confirmDeleteBook(@PathVariable Long bookId) {
         bookService.deleteById(bookId);
         return "redirect:../../books";
+
     }
+    @PostMapping("/search")
+    public String searchBooks(@RequestParam(required = false) String text,
+                              @RequestParam(required = false) Double rating,
+                              Model model) {
+        List<Book> books;
+        try {
+            books = bookService.searchBooks(text, rating);
+        } catch (Exception e) {
+            books = bookService.listAll();
+        }
+        model.addAttribute("books", books);
+        List<Author> authors= authorService.findAll();
+        model.addAttribute("authors", authors);
+        return "listBooks";
+    }
+    @PostMapping("/searchAuthor")
+    public String searchBooksByAuthor(@RequestParam(name = "authorId", required = false) Long authorId,
+                                      Model model) {
+        List<Book> books;
+
+        if (authorId == null || authorId == 1234567891) {
+            books = bookService.listAll();
+        } else {
+            books = bookService.findAllByAuthorId(authorId);
+        }
+
+        model.addAttribute("books", books);
+        model.addAttribute("authors", authorService.findAll());
+        model.addAttribute("selectedAuthorId", authorId);
+
+        return "listBooks";
+    }
+
 
 }

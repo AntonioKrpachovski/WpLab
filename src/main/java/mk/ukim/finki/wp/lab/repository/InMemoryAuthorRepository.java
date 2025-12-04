@@ -1,3 +1,4 @@
+/*
 package mk.ukim.finki.wp.lab.repository;
 
 import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
@@ -18,3 +19,4 @@ public class InMemoryAuthorRepository implements AuthorRepository{
         return DataHolder.authors.stream().filter(a->a.getId().equals(id)).findFirst().get();
     }
 }
+*/

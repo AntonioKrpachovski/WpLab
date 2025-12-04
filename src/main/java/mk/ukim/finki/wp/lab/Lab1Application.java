@@ -11,8 +11,8 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-@ServletComponentScan
 @SpringBootApplication
+@ServletComponentScan
 public class Lab1Application {
 
 	public static void main(String[] args) {

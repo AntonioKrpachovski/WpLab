@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .book-option:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Reservation App</h1>
+</header>
+<main>
+
+    <form action="/books/search" method="POST">
+        <h2>Search Books</h2>
+        <label>Search by title or keyword:</label>
+        <input type="text" name="text" placeholder="Enter keyword" />
+        <label>Minimum rating:</label>
+        <input type="number" name="rating" min="0" max="10" step="0.1" placeholder="e.g. 7.5" />
+        <input type="submit" value="Search">
+    </form>
+    <form action="/books/searchAuthor" method="POST">
+        <h2>Search Author</h2>
+        <select id="authorId" name="authorId" required>
+            <option th:value="1234567891" th:text="'All authors'">
+            </option>            <option
+                    th:each="author : ${authors}"
+                    th:value="${author.id}"
+                    th:text="${author.name + ' ' + author.surname}"
+                    th:selected="${selectedAuthorId != null && selectedAuthorId==author.id}">
+            </option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+    <form action="/bookReservation" method="POST">
+        <h2>Choose a book:</h2>
+        <div th:each="book : ${books}" class="book-option">
+            <label>
+                <input type="radio" name="bookTitle" th:value="${book.title}" required>
+                Title: <span th:text="${book.title}"></span>,
+                Genre: <span th:text="${book.genre}"></span>,
+                Rating: <span th:text="${book.averageRating}"></span>
+                Author: <span th:text="${book.getAuthor().getName()}"></span><span th:text="${book.getAuthor().getSurname()}"></span>
+            </label>
+            <th:block>
+                <a th:href="@{'/books/edit/{id}' (id=${book.getId()})}">
+                    <button type="button">Edit</button>
+                </a>
+            </th:block>
+            <th:block>
+                <a th:href="@{'/books/delete/{id}' (id=${book.getId()})}">
+                   <button type="button">Delete</button>
+                </a>
+            </th:block>
+        </div>
+
+        <h2>Enter your information:</h2>
+        <label>Your Name:</label>
+        <input type="text" name="readerName" required><br/>
+        <label>Your Address:</label>
+        <input type="text" name="readerAddress" required><br/>
+
+        <h2>Choose number of copies:</h2>
+        <input type="number" name="numCopies" min="1" max="10" required><br/>
+        <br/>
+        <input type="submit" value="Reserve Book">
+    </form>
+
+    <form action="/books/add-form" method="get">
+        <button type="submit">Add Book</button>
+    </form>
+
+</main>
+</body>
+</html>
