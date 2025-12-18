@@ -5,9 +5,13 @@ import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.model.BookReservation;
 import mk.ukim.finki.wp.lab.model.Gender;
+import mk.ukim.finki.wp.lab.model.User;
 import mk.ukim.finki.wp.lab.repository.AuthorRepository;
 import mk.ukim.finki.wp.lab.repository.BookRepository;
 import mk.ukim.finki.wp.lab.repository.BookReservationRepository;
+import mk.ukim.finki.wp.lab.repository.UserRepository;
+import mk.ukim.finki.wp.lab.model.Role;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,15 +21,20 @@ public class DataHolder {
     public static List<Book> books = new ArrayList<>();
     public static List<BookReservation> reservations = new ArrayList<>();
     public static List<Author> authors = new ArrayList<>();
+    public static List<User> users = new ArrayList<>();
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final BookReservationRepository bookReservationRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataHolder(AuthorRepository authorRepository, BookRepository bookRepository, BookReservationRepository bookReservationRepository) {
+    public DataHolder(AuthorRepository authorRepository, BookRepository bookRepository, BookReservationRepository bookReservationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.bookReservationRepository = bookReservationRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -46,6 +55,10 @@ public class DataHolder {
         reservations = new  ArrayList<>();
         authorRepository.saveAll(authors);
         bookRepository.saveAll(books);
+
+        users.add(new User("Antonio", passwordEncoder.encode("krp"), "Antonio", "Krpachovski", Role.ROLE_USER));
+        users.add(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
+        userRepository.saveAll(users);
     }
 
 }
